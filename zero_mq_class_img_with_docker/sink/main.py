@@ -23,13 +23,9 @@ def main():
         try:
             # -----Storage the data-----
             storage_data = Storage_Data(access_key="minio", secret_key="minio123")
-            print("ok1")
             storage_data.conn_minio()
-            print("ok2")
             storage_data.preprocess_data(result.get("result"))
-            print("ok3")
             storage_data.storage_data()
-            print("ok4")
 
         except Exception as error:
             print("Erro ao persistir as informacoes!")
