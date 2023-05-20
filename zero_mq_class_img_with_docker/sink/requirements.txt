@@ -1,0 +1,5 @@
+zmq
+tensorflow
+minio==6.0.2
+pandas
+pathlib
