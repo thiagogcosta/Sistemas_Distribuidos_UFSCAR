@@ -6,10 +6,10 @@ from pathlib import Path
 import os
 import datetime
 from storage_data import Storage_Data
+import random
 
 
 def main():
-    count = 0
     context = zmq.Context()
     socket = context.socket(zmq.PULL)
 
@@ -18,13 +18,19 @@ def main():
     while True:
         result = socket.recv_json()
         print("-" * 10)
-        print({"REQUISICAO": count, "RESULTADO": result})
+        print(result)
 
         try:
             # -----Storage the data-----
             storage_data = Storage_Data(access_key="minio", secret_key="minio123")
+            
             storage_data.conn_minio()
-            storage_data.preprocess_data(result.get("result"))
+            
+            storage_data.preprocess_data(
+                parametros = result.get("parametros"),
+                result = result.get("result")
+            )
+
             storage_data.storage_data()
 
         except Exception as error:
@@ -32,7 +38,6 @@ def main():
             pass
 
         print("-" * 10)
-        count += 1
 
 
 if __name__ == "__main__":

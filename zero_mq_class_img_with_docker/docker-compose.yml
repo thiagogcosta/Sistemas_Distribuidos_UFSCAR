@@ -25,6 +25,13 @@ services:
         - sink
     network_mode: "host"        
     restart: on-failure
+  worker2:
+    build: worker
+    depends_on:
+        - ventilator
+        - sink
+    network_mode: "host"        
+    restart: on-failure
   minio:
     image: minio/minio
     ports:

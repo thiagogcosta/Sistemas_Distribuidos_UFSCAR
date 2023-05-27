@@ -15,8 +15,6 @@ def treinar_testar_modelo(param_1: int, param_2: int):
     classificador.testar()
 
     return {
-        "size_of_dense_layer_with_relu_activation_1": param_1,
-        "size_of_dense_layer_with_relu_activation_2": param_2,
         "loss": classificador.test_loss,
         "acc": classificador.test_acc,
     }
@@ -36,14 +34,18 @@ def work():
     while True:
         workload = socket_rcv.recv_json()
         result = treinar_testar_modelo(
-            workload["size_of_dense_layer_with_relu_activation_1"],
-            workload["size_of_dense_layer_with_relu_activation_2"],
+            workload["parametros"]["size_of_dense_layer_with_relu_activation_1"],
+            workload["parametros"]["size_of_dense_layer_with_relu_activation_2"],
         )
 
+        result = {"worker_id": _id, "result": result}
+
+        workload.update(result)
+
         print("-" * 10)
-        print({"worker_id": _id, "result": result})
+        print(workload)
         print("-" * 10)
-        socket_snd.send_json({"worker_id": _id, "result": result})
+        socket_snd.send_json(workload)
 
 
 if __name__ == "__main__":

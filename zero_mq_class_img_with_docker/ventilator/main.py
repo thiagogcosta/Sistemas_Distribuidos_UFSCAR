@@ -1,5 +1,6 @@
 import time
 import zmq
+import random
 
 
 def produce():
@@ -9,7 +10,10 @@ def produce():
 
     vector_architecture = [16, 32, 64, 128, 256]
 
-    count = 0
+    # Generate hash names
+    random_bits = random.getrandbits(18)
+    hash_name = "%08x" % random_bits
+
     while True:
         for i in range(len(vector_architecture)):
             for j in range(len(vector_architecture)):
@@ -22,16 +26,15 @@ def produce():
                     ],
                 }
 
+                requisicao = {"requisicao": hash_name, "parametros": parametros}
+
                 print("-" * 10)
-                print("REQUISICAO: ", count)
-                print("PARAMETROS: ", parametros)
+                print(requisicao)
                 print("-" * 10)
 
-                zmq_socket.send_json(parametros)
+                zmq_socket.send_json(requisicao)
 
-                time.sleep(15)
-
-                count += 1
+                time.sleep(5)
 
 
 if __name__ == "__main__":

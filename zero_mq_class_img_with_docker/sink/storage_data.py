@@ -14,19 +14,19 @@ class Storage_Data:
     # -----Connect to the MinIO-----
     def conn_minio(self):
         self.client = Minio(
-            "localhost:9000", access_key="minio", secret_key="minio123", secure=False
+            "localhost:9000", access_key=self.access_key, secret_key=self.secret_key, secure=False
         )
 
-    def preprocess_data(self, result):
-        columns = list(result.keys())
-        values = list(result.values())
+    def preprocess_data(self, parametros, result):
+        columns = list(parametros.keys()) + list(result.keys())
+        values = list(parametros.values()) + list(result.values())
         arr_len = len(values)
 
         df = pd.DataFrame(
             np.array(values, dtype=object).reshape(1, arr_len), columns=columns
         )
 
-        self.path_to_save = "artefatos_" + datetime.datetime.now().strftime(
+        self.path_to_save = "modelo_class_img_" + datetime.datetime.now().strftime(
             "%d-%M-%Y_%H-%M-%S"
         )
         df.to_csv(self.path_to_save + ".csv")
