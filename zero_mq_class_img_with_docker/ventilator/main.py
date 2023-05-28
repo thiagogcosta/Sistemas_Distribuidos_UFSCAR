@@ -1,6 +1,7 @@
 import time
 import zmq
 import random
+import os
 
 
 def produce():
@@ -13,6 +14,8 @@ def produce():
     # Generate hash names
     random_bits = random.getrandbits(18)
     hash_name = "%08x" % random_bits
+
+    _id = str(os.getpid())
 
     while True:
         for i in range(len(vector_architecture)):
@@ -29,6 +32,7 @@ def produce():
                 requisicao = {"requisicao": hash_name, "parametros": parametros}
 
                 print("-" * 10)
+                print("VENTILATOR: " + _id)
                 print(requisicao)
                 print("-" * 10)
 

@@ -14,7 +14,10 @@ class Storage_Data:
     # -----Connect to the MinIO-----
     def conn_minio(self):
         self.client = Minio(
-            "localhost:9000", access_key=self.access_key, secret_key=self.secret_key, secure=False
+            "localhost:9000",
+            access_key=self.access_key,
+            secret_key=self.secret_key,
+            secure=False,
         )
 
     def preprocess_data(self, parametros, result):
