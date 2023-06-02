@@ -3,35 +3,36 @@ services:
   ventilator:
     build: ventilator
     network_mode: "host"        
-    restart: on-failure
   sink:
     build: sink
     depends_on:
       - ventilator
       - minio
     network_mode: "host"        
-    restart: on-failure
   worker0:
     build: worker
     depends_on:
         - ventilator
         - sink
     network_mode: "host"        
-    restart: on-failure
   worker1:
     build: worker
     depends_on:
         - ventilator
         - sink
     network_mode: "host"        
-    restart: on-failure
   worker2:
     build: worker
     depends_on:
         - ventilator
         - sink
-    network_mode: "host"        
-    restart: on-failure
+    network_mode: "host"
+  worker3:
+    build: worker
+    depends_on:
+        - ventilator
+        - sink
+    network_mode: "host" 
   minio:
     image: minio/minio
     ports:
@@ -43,6 +44,5 @@ services:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: minio123
     command: server --console-address ":9001" /data      
-    restart: on-failure
 volumes:
   minio_storage: {}
