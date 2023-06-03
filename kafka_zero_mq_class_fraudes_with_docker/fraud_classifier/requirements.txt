@@ -1,0 +1,5 @@
+zmq
+pandas
+joblib
+confluent-kafka
+scikit-learn
